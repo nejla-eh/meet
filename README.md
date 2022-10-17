@@ -51,7 +51,9 @@ Then their city should be changed to that city (i.e., “Berlin, Germany”) and
 Feature 2: Show/hide an event's details
 
 Scenario 1: An event element is collapsed by default
+
 Scenario 2: User can expand an event to see its details
+
 Scenario 3: User can collapse an event to hide its details
 ```
 *As a user I should be able to show/hide event details, so that I can see more/less information about an event.*
