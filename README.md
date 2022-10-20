@@ -128,7 +128,7 @@ Then the user should be able to see cached data
 
 Given user wanted to change the settings
 
-When the user tries to enter them
+When the user changes the settings 
 
 Then the user should get an error
 
