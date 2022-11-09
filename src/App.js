@@ -3,6 +3,7 @@ import "./App.css";
 import EventList from "./EventList";
 import CitySearch from "./CitySearch";
 import NumberOfEvents from "./NumberOfEvents";
+import { InfoAlert } from "./Alert";
 import { extractLocations, getEvents } from "./api";
 import "./nprogress.css";
 // import { mockData } from "./mock-data";
@@ -51,6 +52,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {!navigator.onLine && (
+          <InfoAlert
+            className="alert-centered"
+            text="App is currently offline. You are seeing your cached data."
+          />
+        )}
         <div className="filters">
           <CitySearch
             locations={this.state.locations}
