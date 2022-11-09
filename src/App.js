@@ -62,12 +62,12 @@ class App extends Component {
       return <div className="App" />;
     return (
       <div className="App">
-        {!navigator.onLine && (
+        {/* {!navigator.onLine && (
           <InfoAlert
             className="alert-centered"
             text="App is currently offline. You are seeing your cached data."
           />
-        )}
+        )} */}
         <div className="filters">
           <CitySearch
             locations={this.state.locations}

@@ -42,6 +42,7 @@
     height: 100%;
     background-color: #fff;
     top: 50%;
+    border-radius: 0;
     transform: translateY(-50%);
 }
 
