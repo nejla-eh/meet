@@ -38,10 +38,8 @@
 
 .google-icon-wrapper {
     position: absolute;
-    margin-left: 0.5px;
-    width: 40px;
-    height: 40px;
-    border-radius: 2px;
+    margin: 0;
+    height: 100%;
     background-color: #fff;
     top: 50%;
     transform: translateY(-50%);
