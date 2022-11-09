@@ -37,20 +37,29 @@ class App extends Component {
 
   async componentDidMount() {
     this.mounted = true;
-    const accessToken = localStorage.getItem("access_token");
-    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get("code");
-    this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-    if ((code || isTokenValid) && this.mounted)
-      getEvents().then((events) => {
-        if (this.mounted) {
-          this.setState({
-            events: events.slice(0, this.state.numberOfEvents),
-            locations: extractLocations(events),
-          });
-        }
-      });
+    if (navigator.onLine) {
+      const accessToken = localStorage.getItem("access_token");
+      const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get("code");
+      this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+      if ((code || isTokenValid) && this.mounted)
+        getEvents().then((events) => {
+          if (this.mounted) {
+            this.setState({
+              events: events.slice(0, this.state.numberOfEvents),
+              locations: extractLocations(events),
+            });
+          }
+        });
+    } else {
+      if (this.mounted) {
+        this.setState({
+          events: events.slice(0, this.state.numberOfEvents),
+          locations: extractLocations(events),
+        });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -62,12 +71,12 @@ class App extends Component {
       return <div className="App" />;
     return (
       <div className="App">
-        {/* {!navigator.onLine && (
+        {!navigator.onLine && (
           <InfoAlert
             className="alert-centered"
             text="App is currently offline. You are seeing your cached data."
           />
-        )} */}
+        )}
         <div className="filters">
           <CitySearch
             locations={this.state.locations}
