@@ -45,7 +45,7 @@ class CitySearch extends Component {
       ? {
           top: this.state.infoText === "" ? "48px" : "70px",
         }
-      : { display: "none" };
+      : { opacity: 0 };
   };
 
   hideSuggestions = () => {

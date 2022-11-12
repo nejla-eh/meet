@@ -8,10 +8,10 @@ function WelcomeScreen(props) {
         Log in to see upcoming events around the world for full-stack developers
       </h4>
       <div className="button_cont" align="center">
-        <div class="google-btn">
-          <div class="google-icon-wrapper">
+        <div className="google-btn">
+          <div className="google-icon-wrapper">
             <img
-              class="google-icon"
+              className="google-icon"
               src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Log
 o.svg"
               alt="Google sign-in"
@@ -22,7 +22,7 @@ o.svg"
               props.getAccessToken();
             }}
             rel="nofollow noopener"
-            class="btn-text"
+            className="btn-text"
           >
             <b>Sign in with google</b>
           </button>

@@ -7,6 +7,16 @@ import { InfoAlert } from "./Alert";
 import { extractLocations, getEvents, checkToken, getAccessToken } from "./api";
 import "./nprogress.css";
 import WelcomeScreen from "./WelcomeScreen";
+import EventGenre from "./EventGenre";
+import {
+  CartesianGrid,
+  ScatterChart,
+  Scatter,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 // import { mockData } from "./mock-data";
 
 class App extends Component {
@@ -37,7 +47,10 @@ class App extends Component {
 
   async componentDidMount() {
     this.mounted = true;
-    if (navigator.onLine) {
+    const isLocal =
+      window.location.href.startsWith("http://127.0.0.1") ||
+      window.location.href.startsWith("http://localhost");
+    if (navigator.onLine && !isLocal) {
       const accessToken = localStorage.getItem("access_token");
       const isTokenValid = (await checkToken(accessToken)).error ? false : true;
       const searchParams = new URLSearchParams(window.location.search);
@@ -69,6 +82,18 @@ class App extends Component {
     this.mounted = false;
   }
 
+  getData = () => {
+    const { locations, events } = this.state;
+    const data = locations.map((location) => {
+      const number = events.filter(
+        (event) => event.location === location
+      ).length;
+      const city = location.split(", ").shift();
+      return { city, number };
+    });
+    return data;
+  };
+
   render() {
     if (this.state.showWelcomeScreen === undefined)
       return <div className="App" />;
@@ -83,12 +108,40 @@ class App extends Component {
         <div className="filters">
           <CitySearch
             locations={this.state.locations}
-            updateEvents={this.updateEvents}
+            updateEvents={(updatedLocation) => {
+              this.updateEvents(updatedLocation);
+            }}
           />
           <NumberOfEvents
             num={this.state.numberOfEvents}
             updateNumberOfEvents={(num) => this.updateNumberOfEvents(num)}
           />
+        </div>
+        <div className="data-vis-wrapper">
+          <EventGenre events={this.state.events} />
+          <h4>Events in each city</h4>
+
+          <ResponsiveContainer height={400}>
+            <ScatterChart
+              margin={{
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20,
+              }}
+            >
+              <CartesianGrid />
+              <XAxis type="category" dataKey="city" name="city" />
+              <YAxis
+                type="number"
+                dataKey="number"
+                name="number of events"
+                allowDecimals={false}
+              />
+              <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+              <Scatter data={this.getData()} fill="#8884d8" />
+            </ScatterChart>
+          </ResponsiveContainer>
         </div>
         <EventList events={this.state.events} />
         <WelcomeScreen
